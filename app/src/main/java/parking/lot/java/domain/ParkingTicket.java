@@ -5,24 +5,22 @@ import parking.lot.java.constant.TicketPricingConstant;
 public class ParkingTicket {
     private Car car;
     private Integer spotNumber;
-    private Integer hour;
-    private Integer charge;
+    private Integer totalChargeAmount;
 
     public ParkingTicket(Car car, Integer spotNumber) {
         this.car = car;
         this.spotNumber = spotNumber;
     }
 
-    public Integer calculateChargeAmount(Integer hour) {
-        this.hour = hour;
-        Integer charge = 0;
-        if (hour <= TicketPricingConstant.BASE_CHARGE_DURATION_HOUR) {
-            charge = TicketPricingConstant.BASE_CHARGE_PRICE;
+    public Integer calculateTotalChargeAmount(Integer totalDuration) {
+        if (totalDuration <= TicketPricingConstant.BASE_CHARGE_DURATION_HOUR) {
+            this.totalChargeAmount = TicketPricingConstant.BASE_CHARGE_PRICE;
         } else {
-            charge = TicketPricingConstant.BASE_CHARGE_PRICE + ((hour - TicketPricingConstant.BASE_CHARGE_DURATION_HOUR) * TicketPricingConstant.ADDITION_CHARGE_EVERY_HOUR);
+            this.totalChargeAmount = TicketPricingConstant.BASE_CHARGE_PRICE
+                    + ((totalDuration - TicketPricingConstant.BASE_CHARGE_DURATION_HOUR)
+                            * TicketPricingConstant.ADDITION_CHARGE_EVERY_HOUR);
         }
-        this.charge = charge;
-        return charge;
+        return this.totalChargeAmount;
     }
 
     public Integer getSpotNumber() {
@@ -31,13 +29,5 @@ public class ParkingTicket {
 
     public Car getCar() {
         return car;
-    }
-
-    public Integer getHour() {
-        return hour;
-    }
-
-    public Integer getCharge() {
-        return charge;
     }
 }

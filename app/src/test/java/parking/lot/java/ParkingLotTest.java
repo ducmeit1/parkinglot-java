@@ -1,6 +1,7 @@
 package parking.lot.java;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assume.assumeNoException;
 
 import org.junit.Test;
@@ -20,11 +21,11 @@ public class ParkingLotTest {
         ParkingLotService parkingLotService = setup(2);
         
         // When
-        String actual1 = parkingLotService.park("KA-01-HH-1234");
-        String actual2 = parkingLotService.park("KA-01-HH-9999");
+        int actual1 = parkingLotService.park("KA-01-HH-1234");
+        int actual2 = parkingLotService.park("KA-01-HH-9999");
         // Then
-        assertEquals(String.format(MessageConstant.ALLOCATED_SLOT_NUMBER, 1), actual1);
-        assertEquals(String.format(MessageConstant.ALLOCATED_SLOT_NUMBER, 2), actual2);
+        assertEquals(1, actual1);
+        assertEquals(2, actual2);
         } catch (ParkingException e) {
             assumeNoException(e);
         }
@@ -36,11 +37,12 @@ public class ParkingLotTest {
             ParkingLotService parkingLotService = setup(1);
             
             // When
-            String actual1 = parkingLotService.park("KA-01-HH-1234");
-            String actual2 = parkingLotService.park("KA-01-HH-9999");
+            int actual1 = parkingLotService.park("KA-01-HH-1234");
+            int actual2 = parkingLotService.park("KA-01-HH-9999");
 
             // Then
-            assertEquals(String.format(MessageConstant.ALLOCATED_SLOT_NUMBER, 1), actual1);
+            assertEquals(1, actual1);
+            assertNull(actual2);
         } catch (ParkingException e) {
             assertEquals(MessageConstant.PARKING_LOT_IS_FULL, e.getMessage());
         }
@@ -52,11 +54,12 @@ public class ParkingLotTest {
             ParkingLotService parkingLotService = setup(1);
             
             // When
-            String actual1 = parkingLotService.park("KA-01-HH-1234");
-            String actual2 = parkingLotService.leave("KA-01-HH-1234", 2);
+            int actual1 = parkingLotService.park("KA-01-HH-1234");
+            int[] actual2 = parkingLotService.leave("KA-01-HH-1234", 2);
             // Then
-            assertEquals(String.format(MessageConstant.ALLOCATED_SLOT_NUMBER, 1), actual1);
-            assertEquals(String.format(MessageConstant.LEAVE_PARKING_LOT_WITH_CHARGE, "KA-01-HH-1234", 1, 10), actual2);
+            assertEquals(1, actual1);
+            assertEquals(1, actual2[0]);
+            assertEquals(10, actual2[1]);
         } catch (ParkingException e) {
             assumeNoException(e);
         }
@@ -68,10 +71,11 @@ public class ParkingLotTest {
             ParkingLotService parkingLotService = setup(1);
             
             // When
-            String actual1 = parkingLotService.park("KA-01-HH-1234");
-            String actual2 = parkingLotService.leave("KA-01-HH-1235", 2);
+            int actual1 = parkingLotService.park("KA-01-HH-1234");
+            int[] actual2 = parkingLotService.leave("KA-01-HH-1235", 2);
+            assertNull(actual2);
             // Then
-            assertEquals(String.format(MessageConstant.ALLOCATED_SLOT_NUMBER, 1), actual1);
+            assertEquals(1, actual1);
         } catch (ParkingException e) {
             assertEquals(String.format(MessageConstant.REGISTRATION_NUMBER_NOT_FOUND, "KA-01-HH-1235"), e.getMessage());
         }

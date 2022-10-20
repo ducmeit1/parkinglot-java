@@ -1,4 +1,4 @@
-package parking.lot.java.ui;
+package parking.lot.java.cmd;
 
 import java.util.Scanner;
 
@@ -9,11 +9,11 @@ import parking.lot.java.exception.ParkingException;
 import parking.lot.java.service.ParkingLotService;
 import parking.lot.java.util.InputUtil;
 
-public class CommandLine {
+public class ParkingLotCommand {
     private Scanner scanner;
     private ParkingLotService parkingLotService = null;
 
-    public CommandLine(Scanner scanner) {
+    public ParkingLotCommand(Scanner scanner) {
         this.scanner = scanner;
     }
 
@@ -33,12 +33,13 @@ public class CommandLine {
                         break;
                     case CommandLineConstant.PARK_COMMAND:
                         String parkRegistrationNumber = InputUtil.getString(scanner, "registration-number");
-                        System.out.println(this.parkingLotService.park(parkRegistrationNumber));
+                        System.out.println(String.format(MessageConstant.ALLOCATED_SLOT_NUMBER, this.parkingLotService.park(parkRegistrationNumber)));
                         break;
                     case CommandLineConstant.LEAVE_COMMAND:
                         String leaveRegistrationNumber = InputUtil.getString(scanner, "registration-number");
                         int duration = InputUtil.getInteger(scanner, "duration", 0);
-                        System.out.println(this.parkingLotService.leave(leaveRegistrationNumber, duration));
+                        int result [] = this.parkingLotService.leave(leaveRegistrationNumber, duration);
+                        System.out.println(String.format(MessageConstant.LEAVE_PARKING_LOT_WITH_CHARGE, leaveRegistrationNumber, result[0], result[1]));
                         break;
                     case CommandLineConstant.STATUS_COMMAND:
                         System.out.println(this.parkingLotService.status());

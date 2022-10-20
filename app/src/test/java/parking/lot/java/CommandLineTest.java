@@ -12,9 +12,9 @@ import java.util.Scanner;
 
 import org.junit.Test;
 
+import parking.lot.java.cmd.ParkingLotCommand;
 import parking.lot.java.exception.CommandLineException;
 import parking.lot.java.exception.ParkingException;
-import parking.lot.java.ui.CommandLine;
 
 public class CommandLineTest {
     /**
@@ -25,7 +25,7 @@ public class CommandLineTest {
         // Given
             Scanner scanner = new Scanner(new File("src/test/resources/files/valid_test_file"));
         // When
-            CommandLine commandLine = new CommandLine(scanner);
+            ParkingLotCommand commandLine = new ParkingLotCommand(scanner);
             commandLine.run();
         // Then
         } catch (FileNotFoundException | CommandLineException | ParkingException e) {
@@ -37,6 +37,9 @@ public class CommandLineTest {
         try {
         // Given
         Scanner scanner = new Scanner(new File("src/test/resources/files/invalid_test_file"));
+        // When
+        ParkingLotCommand commandLine = new ParkingLotCommand(scanner);
+        commandLine.run();
         // Then
         } catch (FileNotFoundException e) {
             assertEquals("src/test/resources/files/invalid_test_file (No such file or directory)", e.getMessage());

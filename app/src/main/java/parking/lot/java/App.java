@@ -5,11 +5,11 @@ package parking.lot.java;
 
 import java.util.Scanner;
 
-import parking.lot.java.ui.CommandLine;
+import parking.lot.java.cmd.ParkingLotCommand;
 
 public class App {
     public static void main(String[] args) {
-        CommandLine commandLine = new CommandLine(new Scanner(System.in));
+        ParkingLotCommand commandLine = new ParkingLotCommand(new Scanner(System.in));
         commandLine.run();
     }
 }
